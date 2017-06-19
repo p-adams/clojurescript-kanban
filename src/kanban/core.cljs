@@ -1,17 +1,19 @@
 (ns kanban.core
     (:require [reagent.core :as reagent]))
 
-;; -------------------------
-;; Views
 
-(defn home-page []
-  [:div [:h2 "Welcome to Reagent"]])
+
+
+
+
+(defn app []
+  [:div {:class "app"} [:h2 {:on-click #(js/alert "meow")} "Kanban"]])
 
 ;; -------------------------
 ;; Initialize app
 
 (defn mount-root []
-  (reagent/render [home-page] (.getElementById js/document "app")))
+  (reagent/render [app] (.getElementById js/document "app")))
 
 (defn init! []
   (mount-root))

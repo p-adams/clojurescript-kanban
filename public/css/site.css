@@ -9,6 +9,10 @@ body {
   line-height: 1.5em;
 }
 
+.app {
+    border: 1px solid red;
+}
+
 h1, h2, h3 {
   color: #000;
 }
