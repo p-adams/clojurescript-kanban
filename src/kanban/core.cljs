@@ -3,7 +3,17 @@
 
 
 
+(defn backlog []
+  [:div [:h4 "backlog"]])
 
+(defn in-development []
+  [:div [:h4 "in developlment"]])
+
+(defn in-test []
+  [:div [:h4 "in test"]])
+
+(defn done []
+  [:div [:h4 "done"]])
 
 
 (defn app []
