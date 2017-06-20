@@ -7,7 +7,7 @@
   [:div [:h4 "backlog"]])
 
 (defn in-development []
-  [:div [:h4 "in developlment"]])
+  [:div [:h4 "in development"]])
 
 (defn in-test []
   [:div [:h4 "in test"]])
@@ -17,7 +17,12 @@
 
 
 (defn app []
-  [:div {:class "app"} [:h2 {:on-click #(js/alert "meow")} "Kanban"]])
+  [:div {:class "app"}
+  [:h2 {:id "title"} "Kanban"]
+    [backlog]
+    [in-development]
+    [in-test]
+    [done]])
 
 ;; -------------------------
 ;; Initialize app
