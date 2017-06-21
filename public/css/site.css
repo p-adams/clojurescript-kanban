@@ -36,11 +36,6 @@ ul li {
    list-style: none;
    margin-left: -35px;
 }
-
-button {
-    margin: 7px;
-}
-
 li {
     font-size: 12px;
     margin: 10px;
@@ -48,6 +43,13 @@ li {
     border: 1px solid green;
     border-radius: 1px;
     box-shadow: 10px 10px 5px #888888;
+}
+
+input {
+    margin-left: 10px;
+}
+button {
+    margin: 7px;
 }
 
 h4 {

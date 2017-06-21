@@ -8,28 +8,30 @@
 (defonce done-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}]))
 
 
-(defn render-activity [activity]
+(defn render-activities [activities button-text]
   [:ul
-  (for [act @activity]
-    ^{:key act}
-    [:li "Task: "(get act :task) [:br] " Owner: "(get act :owner)
-     [:br][:button "move"]])])
+  (for [activity @activities]
+    ^{:key activity}
+    [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
+     [:br][:button button-text]])])
 
 (defn backlog []
   [:div {:class "flex-item"} [:h4 "Backlog"]
-   [render-activity backlog-state]])
+  [:input {:type "text" :placeholder "add task..."}]
+  [:button "add"]
+   [render-activities backlog-state "move"]])
 
 (defn in-development []
   [:div {:class "flex-item"} [:h4 "In development"]
-  [render-activity dev-state]])
+  [render-activities dev-state "move"]])
 
 (defn in-test []
   [:div {:class "flex-item"} [:h4 "In test"]
-  [render-activity test-state]])
+  [render-activities test-state "move"]])
 
 (defn done []
   [:div {:class "flex-item"} [:h4 "Done"]
-  [render-activity done-state]])
+  [render-activities done-state "remove"]])
 
 
 (defn app []
