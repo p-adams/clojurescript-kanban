@@ -1,6 +1,10 @@
 (ns kanban.core
     (:require [reagent.core :as reagent]))
 
+(defonce backlog (reagent/atom (sorted-map)))
+(defonce development (reagent/atom (sorted-map)))
+(defonce test (reagent/atom (sorted-map)))
+(defonce done (reagent/atom (sorted-map)))
 
 
 (defn backlog []
