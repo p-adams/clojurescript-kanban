@@ -10,20 +10,26 @@
 (defonce get-owner (reagent/atom ""))
 
 (defn reset-inputs []
+  "reset the input fields after adding new task" 
   (reset! get-task "")
   (reset! get-owner ""))
 
+(defn remove-activity [activity activities]
+  "remove given activity from actitivies")
 
-(defn move-activity [activity destination]
+(defn move-activity [activity activities destination]
+  "move an activity to a new destination"
   (js/alert (for [dest destination] dest)))
 
 (defn render-activities [activities button-text destination]
+  "iterate through activities; render each activity as list item"
+  "move activity to new destination on button click"
   [:ul
   (for [activity @activities]
     ^{:key activity}
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
      [:br]
-     [:button {:on-click #(move-activity activity destination)}
+     [:button {:on-click #(move-activity activity activities destination)}
                 button-text]])])
 
 (defn add-task-to-backlog [task owner]
@@ -31,6 +37,7 @@
   (reset-inputs))
 
 (defn input []
+  "input component; renders two input field and button to add new task"
   [:div [:input {:type "text"
            :value @get-task
            :on-change #(reset! get-task (-> % .-target .-value))
@@ -48,24 +55,29 @@
                     (= (count @get-owner) 0))} "add"]])
 
 (defn backlog []
+  "backlog component"
   [:div {:class "flex-item"} [:h4 "Backlog"]
   [input]
   [render-activities backlog-state "move" @dev-state]])
 
 (defn in-development []
+  "in development component"
   [:div {:class "flex-item"} [:h4 "In development"]
   [render-activities dev-state "move" @test-state]])
 
 (defn in-test []
+  "in test component"
   [:div {:class "flex-item"} [:h4 "In test"]
   [render-activities test-state "move" @done-state]])
 
 (defn done []
+  "done component"
   [:div {:class "flex-item"} [:h4 "Done"]
   [render-activities done-state "remove" nil]])
 
 
 (defn app []
+  "main app component"
   [:div {:class "app"}
   [:h2 {:id "title"} "Kanban"]
    [:div {:class "flex-container"}
