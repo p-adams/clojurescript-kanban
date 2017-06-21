@@ -1,34 +1,35 @@
 (ns kanban.core
     (:require [reagent.core :as reagent]))
 
-(defonce backlog-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}
-                                       {:task "find use cases" :completed true :owner "Mary Smith"}
+(defonce backlog-state (reagent/atom [{:task "create RESTful endpoints" :completed false :owner "Mary Smith"}
                                        {:task "design UI prototype" :completed false :owner "Safdar Khan"}]))
+(defonce dev-state (reagent/atom [{:task "client protocol" :completed false :owner "Mark Wu"}]))
+(defonce test-state (reagent/atom [{:task "server protocol" :completed false :owner "Maryam Patel"}]))
+(defonce done-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}]))
 
-(defonce dev-state (reagent/atom []))
-(defonce test-state (reagent/atom []))
-(defonce done-state (reagent/atom []))
 
-
-(defn render-backlog []
+(defn render-activity [activity]
   [:ul
-  (for [backlog @backlog-state]
-    ^{:key backlog}
-    [:li "Task: "(get backlog :task) [:br] " Owner: "(get backlog :owner)
+  (for [act @activity]
+    ^{:key act}
+    [:li "Task: "(get act :task) [:br] " Owner: "(get act :owner)
      [:br][:button "move"]])])
 
 (defn backlog []
   [:div {:class "flex-item"} [:h4 "Backlog"]
-   [render-backlog]])
+   [render-activity backlog-state]])
 
 (defn in-development []
-  [:div {:class "flex-item"} [:h4 "In development"]])
+  [:div {:class "flex-item"} [:h4 "In development"]
+  [render-activity dev-state]])
 
 (defn in-test []
-  [:div {:class "flex-item"} [:h4 "In test"]])
+  [:div {:class "flex-item"} [:h4 "In test"]
+  [render-activity test-state]])
 
 (defn done []
-  [:div {:class "flex-item"} [:h4 "Done"]])
+  [:div {:class "flex-item"} [:h4 "Done"]
+  [render-activity done-state]])
 
 
 (defn app []
