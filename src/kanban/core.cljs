@@ -13,12 +13,18 @@
   (reset! get-task "")
   (reset! get-owner ""))
 
-(defn render-activities [activities button-text]
+
+(defn move-activity [activity destination]
+  (js/alert (for [dest destination] dest)))
+
+(defn render-activities [activities button-text destination]
   [:ul
   (for [activity @activities]
     ^{:key activity}
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
-     [:br][:button button-text]])])
+     [:br]
+     [:button {:on-click #(move-activity activity destination)}
+                button-text]])])
 
 (defn add-task-to-backlog [task owner]
   (swap! backlog-state conj {:task task :completed false :owner owner})
@@ -44,19 +50,19 @@
 (defn backlog []
   [:div {:class "flex-item"} [:h4 "Backlog"]
   [input]
-  [render-activities backlog-state "move"]])
+  [render-activities backlog-state "move" @dev-state]])
 
 (defn in-development []
   [:div {:class "flex-item"} [:h4 "In development"]
-  [render-activities dev-state "move"]])
+  [render-activities dev-state "move" @test-state]])
 
 (defn in-test []
   [:div {:class "flex-item"} [:h4 "In test"]
-  [render-activities test-state "move"]])
+  [render-activities test-state "move" @done-state]])
 
 (defn done []
   [:div {:class "flex-item"} [:h4 "Done"]
-  [render-activities done-state "remove"]])
+  [render-activities done-state "remove" nil]])
 
 
 (defn app []
