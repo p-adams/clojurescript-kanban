@@ -7,6 +7,11 @@
 (defonce test-state (reagent/atom [{:task "server protocol" :completed false :owner "Maryam Patel"}]))
 (defonce done-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}]))
 (defonce get-task (reagent/atom ""))
+(defonce get-owner (reagent/atom ""))
+
+(defn reset-inputs []
+  (reset! get-task "")
+  (reset! get-owner ""))
 
 (defn render-activities [activities button-text]
   [:ul
@@ -15,13 +20,25 @@
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
      [:br][:button button-text]])])
 
+(defn add-to-backlog [task owner]
+  (swap! backlog-state {:task task :completed false :owner owner}))
+
 (defn input []
   [:div [:input {:type "text"
            :value @get-task
            :on-change #(reset! get-task (-> % .-target .-value))
            :placeholder "add task..."
            :autoFocus true}]
-  [:button {:disabled (= (count @get-task) 0)} "add"]])
+        [:input {:type "text"
+          :value @get-owner
+          :on-change #(reset! get-owner(-> % .-target .-value))
+          :placeholder "add owner..."
+          }]
+        [:button {:on-click #(add-to-backlog @get-task @get-owner)
+                  :disabled
+                    (or
+                    (= (count @get-task) 0)
+                    (= (count @get-owner) 0))} "add"]])
 
 (defn backlog []
   [:div {:class "flex-item"} [:h4 "Backlog"]
