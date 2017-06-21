@@ -1,32 +1,44 @@
 (ns kanban.core
     (:require [reagent.core :as reagent]))
 
-(defonce backlog (reagent/atom (sorted-map)))
-(defonce development (reagent/atom (sorted-map)))
-(defonce test (reagent/atom (sorted-map)))
-(defonce done (reagent/atom (sorted-map)))
+(defonce backlog-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}
+                                       {:task "find use cases" :completed true :owner "Mary Smith"}
+                                       {:task "design UI prototype" :completed false :owner "Safdar Khan"}]))
 
+(defonce dev-state (reagent/atom []))
+(defonce test-state (reagent/atom []))
+(defonce done-state (reagent/atom []))
+
+
+(defn render-backlog []
+  [:ul
+  (for [backlog @backlog-state]
+    ^{:key backlog}
+    [:li "Task: "(get backlog :task) [:br] " Owner: "(get backlog :owner)
+     [:br][:button "move"]])])
 
 (defn backlog []
-  [:div [:h4 "backlog"]])
+  [:div {:class "flex-item"} [:h4 "Backlog"]
+   [render-backlog]])
 
 (defn in-development []
-  [:div [:h4 "in development"]])
+  [:div {:class "flex-item"} [:h4 "In development"]])
 
 (defn in-test []
-  [:div [:h4 "in test"]])
+  [:div {:class "flex-item"} [:h4 "In test"]])
 
 (defn done []
-  [:div [:h4 "done"]])
+  [:div {:class "flex-item"} [:h4 "Done"]])
 
 
 (defn app []
   [:div {:class "app"}
   [:h2 {:id "title"} "Kanban"]
+   [:div {:class "flex-container"}
     [backlog]
     [in-development]
     [in-test]
-    [done]])
+    [done]]])
 
 ;; -------------------------
 ;; Initialize app
