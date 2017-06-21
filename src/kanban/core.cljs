@@ -6,7 +6,7 @@
 (defonce dev-state (reagent/atom [{:task "client protocol" :completed false :owner "Mark Wu"}]))
 (defonce test-state (reagent/atom [{:task "server protocol" :completed false :owner "Maryam Patel"}]))
 (defonce done-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}]))
-
+(defonce get-task (reagent/atom ""))
 
 (defn render-activities [activities button-text]
   [:ul
@@ -15,11 +15,18 @@
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
      [:br][:button button-text]])])
 
+(defn input []
+  [:div [:input {:type "text"
+           :value @get-task
+           :on-change #(reset! get-task (-> % .-target .-value))
+           :placeholder "add task..."
+           :autoFocus true}]
+  [:button {:disabled (= (count @get-task) 0)} "add"]])
+
 (defn backlog []
   [:div {:class "flex-item"} [:h4 "Backlog"]
-  [:input {:type "text" :placeholder "add task..."}]
-  [:button "add"]
-   [render-activities backlog-state "move"]])
+  [input]
+  [render-activities backlog-state "move"]])
 
 (defn in-development []
   [:div {:class "flex-item"} [:h4 "In development"]
