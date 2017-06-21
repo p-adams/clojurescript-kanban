@@ -20,8 +20,9 @@
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
      [:br][:button button-text]])])
 
-(defn add-to-backlog [task owner]
-  (swap! backlog-state {:task task :completed false :owner owner}))
+(defn add-task-to-backlog [task owner]
+  (swap! backlog-state conj {:task task :completed false :owner owner})
+  (reset-inputs))
 
 (defn input []
   [:div [:input {:type "text"
@@ -34,7 +35,7 @@
           :on-change #(reset! get-owner(-> % .-target .-value))
           :placeholder "add owner..."
           }]
-        [:button {:on-click #(add-to-backlog @get-task @get-owner)
+        [:button {:on-click #(add-task-to-backlog @get-task @get-owner)
                   :disabled
                     (or
                     (= (count @get-task) 0)
