@@ -1,11 +1,13 @@
 (ns kanban.core
     (:require [reagent.core :as reagent]))
 
-(defonce backlog-state (reagent/atom [{:task "create RESTful endpoints" :completed false :owner "Mary Smith"}
-                                       {:task "design UI prototype" :completed false :owner "Safdar Khan"}]))
-(defonce dev-state (reagent/atom [{:task "client protocol" :completed false :owner "Mark Wu"}]))
-(defonce test-state (reagent/atom [{:task "server protocol" :completed false :owner "Maryam Patel"}]))
-(defonce done-state (reagent/atom [{:task "define system context" :completed false :owner "John Smith"}]))
+(defonce backlog-state (reagent/atom {1 {:id 1 :task "create RESTFUL endpoints" :completed false :owner "Mary Smitgh"}
+                                  2 {:id 2 :task "design UI prototype" :completed false :owner "Safdar Khan"}}))
+
+(defonce dev-state (reagent/atom {3 {:id 3 :task "client protocol" :completed false :owner "Mark Wu"}}))
+(defonce test-state (reagent/atom {4 {:id 4 :task "server protocol" :completed false :owner "Maryam Patel"}}))
+(defonce done-state (reagent/atom {5 {:id 5 :task "define system context" :completed false :owner "John Smith"}}))
+(defonce id-counter (reagent/atom 6))                        
 (defonce get-task (reagent/atom ""))
 (defonce get-owner (reagent/atom ""))
 
@@ -14,11 +16,9 @@
   (reset! get-task "")
   (reset! get-owner ""))
 
-(defn remove-activity [task activities]
+(defn remove-activity [id activities]
   "remove given activity from actitivies"
-   (let [index (.indexOf @activities task)]
-    (swap! activities concat (subvec activities 0 index)
-          (subvec activities (inc index)))))
+  (swap! activities dissoc id))
 
 (defn move-activity [activity activities destination]
   "move an activity to a new destination"
@@ -29,17 +29,18 @@
   "move activity to new destination on button click"
   [:ul
   (for [activity @activities]
-    ^{:key (get activity :task)}
-    [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
+    ^{:key activity}
+    [:li "Task: "(get (val activity) :task) [:br] " Owner: "(get (val activity) :owner)
      [:br]
-     [:button {:on-click #(remove-activity activity activities)
+     [:button {:on-click #(remove-activity (get (val activity) :id) activities)
                 ;:on-click #(move-activity (get activity :task) activities destination)
                 }
                 button-text]])])
 
 (defn add-task-to-backlog [task owner]
   "add new task to backlog and reset the inputs"
-  (swap! backlog-state conj {:task task :completed false :owner owner})
+  (let [id (swap! id-counter inc)]
+    (swap! backlog-state assoc id {:id id :task task :completed false :owner owner}))
   (reset-inputs))
 
 (defn input []
