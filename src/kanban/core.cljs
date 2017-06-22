@@ -62,30 +62,30 @@
 
 (defn backlog []
   "backlog component"
-  [:div {:class "flex-item"} [:h4 "Backlog"]
+  [:div {:class "flex-item"} [:p "Backlog"]
   [input]
   [render-activities backlog-state "move" dev-state]])
 
 (defn in-development []
   "in development component"
-  [:div {:class "flex-item"} [:h4 "In development"]
+  [:div {:class "flex-item"} [:p "In development"]
   [render-activities dev-state "move" test-state]])
 
 (defn in-test []
   "in test component"
-  [:div {:class "flex-item"} [:h4 "In test"]
+  [:div {:class "flex-item"} [:p "In test"]
   [render-activities test-state "move" done-state]])
 
 (defn done []
   "done component"
-  [:div {:class "flex-item"} [:h4 "Done"]
+  [:div {:class "flex-item"} [:p "Done"]
   [render-activities done-state "remove" nil]])
 
 
 (defn app []
   "main app component"
   [:div {:class "app"}
-  [:h2 {:id "title"} "Kanban"]
+  [:h1 {:id "title"} "kanban"]
    [:div {:class "flex-container"}
     [backlog]
     [in-development]
