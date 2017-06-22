@@ -14,8 +14,10 @@
   (reset! get-task "")
   (reset! get-owner ""))
 
-(defn remove-activity [activity activities]
-  "remove given activity from actitivies")
+(defn remove-activity [task activities]
+  "remove given activity from actitivies"
+  (js/alert task)
+  (remove #(= (:task %) task) activities))
 
 (defn move-activity [activity activities destination]
   "move an activity to a new destination"
@@ -29,7 +31,9 @@
     ^{:key activity}
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
      [:br]
-     [:button {:on-click #(move-activity activity activities destination)}
+     [:button {:on-click #(remove-activity (get activity :task) @activities)
+                ;:on-click #(move-activity (get activity :task) activities destination)
+                }
                 button-text]])])
 
 (defn add-task-to-backlog [task owner]
