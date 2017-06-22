@@ -16,8 +16,9 @@
 
 (defn remove-activity [task activities]
   "remove given activity from actitivies"
-  (js/alert task)
-  (remove #(= (:task %) task) activities))
+   (let [index (.indexOf @activities task)]
+    (swap! activities concat (subvec activities 0 index)
+          (subvec activities (inc index)))))
 
 (defn move-activity [activity activities destination]
   "move an activity to a new destination"
@@ -28,15 +29,16 @@
   "move activity to new destination on button click"
   [:ul
   (for [activity @activities]
-    ^{:key activity}
+    ^{:key (get activity :task)}
     [:li "Task: "(get activity :task) [:br] " Owner: "(get activity :owner)
      [:br]
-     [:button {:on-click #(remove-activity (get activity :task) @activities)
+     [:button {:on-click #(remove-activity activity activities)
                 ;:on-click #(move-activity (get activity :task) activities destination)
                 }
                 button-text]])])
 
 (defn add-task-to-backlog [task owner]
+  "add new task to backlog and reset the inputs"
   (swap! backlog-state conj {:task task :completed false :owner owner})
   (reset-inputs))
 
