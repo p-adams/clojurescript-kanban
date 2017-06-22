@@ -1,10 +1,7 @@
 body {
   font-family: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
   background-color: #6E6E6E;
-}
-
-.app {
-    border: 1px solid red;
+  color: #6E6E6E;
 }
 
 .flex-container {
@@ -16,7 +13,6 @@ body {
 }
 
 .flex-item {
-    border: 1px solid red;
     background-color: #C5BB91;
     border-radius: 3px;
     box-shadow: 10px 10px 5px #888888;
@@ -48,7 +44,6 @@ li {
     background-color: whitesmoke;
     margin: 10px;
     padding: 10px;
-    border: 1px solid green;
     border-radius: 1px;
     box-shadow: 10px 10px 5px #888888;
 }
@@ -63,5 +58,5 @@ button {
 p {
     text-align: center;
     padding: 10px;
-    border-bottom: 1px solid darkslategray;
+    border-bottom: 1px solid #BDF4FF;
 }

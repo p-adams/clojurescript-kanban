@@ -21,6 +21,7 @@
 
 (defn move-activity [activity activities destination]
   "move an activity to a new destination"
+  (if (nil? destination) (remove-activity (get (val activity) :id) activities))
   (let [id (get (val activity) :id)
         task (get (val activity) :task)
         completed (get (val activity) :completed)
@@ -76,7 +77,7 @@
 
 (defn in-test []
   "in test component"
-  [:div {:class "flex-item"} [:p "In test"]
+  [:div {:class "flex-item"} [:p "In test"] 
   [render-activities test-state "move" done-state]])
 
 (defn done []
