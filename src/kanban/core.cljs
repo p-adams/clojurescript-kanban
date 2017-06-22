@@ -3,7 +3,6 @@
 
 (defonce backlog-state (reagent/atom {1 {:id 1 :task "create RESTFUL endpoints" :completed false :owner "Mary Smitgh"}
                                   2 {:id 2 :task "design UI prototype" :completed false :owner "Safdar Khan"}}))
-
 (defonce dev-state (reagent/atom {3 {:id 3 :task "client protocol" :completed false :owner "Mark Wu"}}))
 (defonce test-state (reagent/atom {4 {:id 4 :task "server protocol" :completed false :owner "Maryam Patel"}}))
 (defonce done-state (reagent/atom {5 {:id 5 :task "define system context" :completed false :owner "John Smith"}}))
@@ -44,7 +43,7 @@
   (reset-inputs))
 
 (defn input []
-  "input component; renders two input field and button to add new task"
+  "input component; renders two input fields and button to add new task"
   [:div [:input {:type "text"
            :value @get-task
            :on-change #(reset! get-task (-> % .-target .-value))
@@ -65,17 +64,17 @@
   "backlog component"
   [:div {:class "flex-item"} [:h4 "Backlog"]
   [input]
-  [render-activities backlog-state "move" @dev-state]])
+  [render-activities backlog-state "move" dev-state]])
 
 (defn in-development []
   "in development component"
   [:div {:class "flex-item"} [:h4 "In development"]
-  [render-activities dev-state "move" @test-state]])
+  [render-activities dev-state "move" test-state]])
 
 (defn in-test []
   "in test component"
   [:div {:class "flex-item"} [:h4 "In test"]
-  [render-activities test-state "move" @done-state]])
+  [render-activities test-state "move" done-state]])
 
 (defn done []
   "done component"
